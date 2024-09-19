@@ -58,7 +58,19 @@ const convertWithOptions = (document, format, filter, options, callback) => {
             args.push(tempDir.name);
             args.push(path.join(tempDir.name, fileName));
           
-            return execFile(results.soffice, args, execOptions, callback);
+            const child =  execFile(results.soffice, args, execOptions, callback);
+            const timeout = execOptions.timeout || undefined;
+
+            const timeoutId = setTimeout(() => {
+                // Kill the child process if the timeout is reached
+                child.kill();
+            }, timeout);
+            
+            //Clear the timeout if the process finishes before the timeout
+            child.on('exit', () => {
+                clearTimeout(timeoutId);
+            });
+
         }],
         loadDestination: ['convert', (results, callback) =>
             async.retry({
