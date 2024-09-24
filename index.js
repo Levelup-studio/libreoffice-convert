@@ -70,7 +70,7 @@ const convertWithOptions = (document, format, filter, options, callback) => {
             child.on('exit', () => {
                 clearTimeout(timeoutId);
             });
-
+            return child;
         }],
         loadDestination: ['convert', (results, callback) =>
             async.retry({
