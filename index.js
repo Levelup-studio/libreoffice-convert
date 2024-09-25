@@ -70,6 +70,10 @@ const convertWithOptions = (document, format, filter, options, callback) => {
             child.on('exit', () => {
                 clearTimeout(timeoutId);
             });
+            child.on('error', (err) => {
+                clearTimeout(timeoutId);
+                callback(err);
+            })
             return child;
         }],
         loadDestination: ['convert', (results, callback) =>
