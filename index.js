@@ -64,6 +64,7 @@ const convertWithOptions = (document, format, filter, options, callback) => {
             const timeoutId = setTimeout(() => {
                 // Kill the child process if the timeout is reached
                 child.kill();
+                callback(err);
             }, timeout);
             
             //Clear the timeout if the process finishes before the timeout
